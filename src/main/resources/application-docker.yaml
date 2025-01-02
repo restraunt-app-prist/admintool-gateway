@@ -1,0 +1,4 @@
+services:
+  url:
+    admintool-core: http://admintool:8081
+    admintool-frontend: http://admintool-frontend:80

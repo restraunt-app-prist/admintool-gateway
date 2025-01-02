@@ -29,13 +29,13 @@
 	<properties>
 		<java.version>21</java.version>
 		<spring-cloud.version>2023.0.4</spring-cloud.version>
+		<docker.image.name>restaurant-admintool-gateway</docker.image.name>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -89,6 +89,19 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<image>
+						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
+						<env>
+							<BP_JVM_VERSION>21</BP_JVM_VERSION>
+							<JAVA_TOOL_OPTIONS>-XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:AdaptiveSizePolicyWeight=90 -XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=40</JAVA_TOOL_OPTIONS>
+						</env>
+						<name>${docker.image.name}</name>
+						<createdDate>${maven.build.timestamp}</createdDate>
+						<buildpacks>
+							<buildpack>urn:cnb:builder:paketo-buildpacks/java</buildpack>
+							<buildpack>gcr.io/paketo-buildpacks/spring-boot:latest</buildpack>
+						</buildpacks>
+					</image>
 				</configuration>
 			</plugin>
 		</plugins>
